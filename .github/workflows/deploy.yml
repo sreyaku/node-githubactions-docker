@@ -26,7 +26,7 @@ jobs:
         docker tag my-app ${{ secrets.Docker_Hub_Username }}/my-node-app
         docker push ${{ secrets.Docker_Hub_Username}}/my-node-app
     - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.5.0
       with:
         EC2_HOST: 44.201.214.24
         EC2_USERNAME: ec2-user
