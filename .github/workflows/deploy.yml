@@ -21,13 +21,13 @@ jobs:
         run: npm install --engine-strict node@16
 
       - name: Build Docker image
-        run: docker build -t myapp .
+        run: docker build -t my-node-app .
 
       - name: Log in to AWS ECR
         run: aws ecr get-login-password --region <AWS region> | docker login --username AWS --password-stdin <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com
 
       - name: Tag Docker image
-        run: docker tag myapp <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
+        run: docker tag my-node-app <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
 
       - name: Push Docker image to AWS ECR
         run: docker push <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
@@ -41,7 +41,7 @@ jobs:
           script: |
             sudo apt-get update
             sudo apt-get install -y docker.io
-            docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
-            docker stop myapp || true
-            docker rm myapp || true
-            docker run -d --name myapp -p 3000:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
+            docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
+            docker stop my-node-app || true
+            docker rm my-node-app || true
+            docker run -d --name my-node-app -p 3000:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
