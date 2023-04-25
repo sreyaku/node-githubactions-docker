@@ -20,8 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install --engine-strict node@16
 
-      - name: Build Docker image
-        run: docker build -t my-node-app .
+      # - name: Build Docker image
+      #   run: docker build -t my-node-app .
 
       - name: Log in to AWS ECR
         run: aws ecr get-login-password --region <AWS region> | docker login --username AWS --password-stdin <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com
