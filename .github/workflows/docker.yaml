@@ -1,0 +1,47 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+
+env:
+  EC2_HOST: 44.201.214.24
+  EC2_USERNAME: ec2-user
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install --engine-strict node@16
+
+      # - name: Build Docker image
+      #   run: docker build -t my-node-app .
+
+      - name: Log in to AWS ECR
+        run: aws ecr get-login-password --region <AWS region> | docker login --username AWS --password-stdin <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com
+
+      - name: Tag Docker image
+        run: docker tag my-node-app <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
+
+      - name: Push Docker image to AWS ECR
+        run: docker push <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
+
+      - name: SSH into EC2 instance and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+            docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
+            docker stop my-node-app || true
+            docker rm my-node-app || true
+            docker run -d --name my-node-app -p 3000:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
