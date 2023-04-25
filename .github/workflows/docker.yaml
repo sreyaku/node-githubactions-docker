@@ -24,7 +24,7 @@ jobs:
       #   run: docker build -t my-node-app .
 
       - name: Log in to AWS ECR
-        run: aws ecr get-login --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-west-2.amazonaws.com
+        run: aws ecr get-login --region us-east-1 docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-west-2.amazonaws.com
 
       - name: Tag Docker image
         run: docker tag my-node-app 187276065257.dkr.ecr.us-east-1.amazonaws.com/my-node-app:latest
