@@ -43,8 +43,10 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker rmi -f $(docker images -aq)
-          docker build -t my-node-app .
-          docker run -d my-node-app -p 80:3000
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker run -ti --rm <IMAGE ID> /bin/bash
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
@@ -53,12 +55,13 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
             sudo apt-get update
             sudo apt-get install -y docker.io
             docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
             docker stop my-node-app || true
             docker rm my-node-app || true
-            docker run -d --name my-node-app -p 80:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
+            docker run -d --name my-node-app -p 80:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
            
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
