@@ -20,19 +20,19 @@ jobs:
       - name: Install dependencies
         run: npm install --engine-strict node@16
 
-      # - name: Build Docker image
-      #   run: docker build -t my-node-app .
+      #- name: Build Docker image
+      #  run: docker build -t my-node-app .
 
-       - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    # see: https://github.com/aws-actions/amazon-ecr-login
+      # see: https://github.com/aws-actions/amazon-ecr-login
       - name: Log in to Amazon ECR
-          id: login-ecr
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push image to Amazon ECR
@@ -43,6 +43,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
         with:
