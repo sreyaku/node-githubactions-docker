@@ -53,12 +53,12 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
+            sudo aws ecr get-login-password --region us-east-1 | docker login --sreyakunni AWS --Rohith@1999-stdin aws_account_id.dkr.ecr.region.amazonaws.com
             sudo apt-get update
-            docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
+            docker pull 187276065257.dkr.ecr.us-east-1.amazonaws.com/my-node-app:latest
             docker stop my-node-app || true
             docker rm my-node-app || true
-            docker run -d --name my-node-app -p 80:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
+            docker run -d --name my-node-app -p 80:3000 187276065257.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
            
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
