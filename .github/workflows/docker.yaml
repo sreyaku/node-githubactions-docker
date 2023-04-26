@@ -42,7 +42,6 @@ jobs:
           # ECR_REPOSITORY: reponame
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          Run docker rmi -f $(docker images -aq)
           docker rmi -f $(docker images -aq)
           docker build -t my-node-app .
           docker run -d my-node-app -p 80:3000
