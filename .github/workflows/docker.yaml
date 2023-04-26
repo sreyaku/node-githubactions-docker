@@ -45,7 +45,7 @@ jobs:
           docker rmi -f $(docker images -aq)
           docker build -t my-node-app .
           docker run -p 80:3000 -d my-node-app
-          
+
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -53,7 +53,7 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
+            sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
             sudo apt-get update
             sudo apt-get install -y docker.io
             docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
