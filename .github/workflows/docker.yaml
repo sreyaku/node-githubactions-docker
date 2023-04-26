@@ -53,7 +53,7 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-east-1.amazonaws.com
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-east-1.amazonaws.com
             docker pull 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
             docker stop my-node-app || true
             docker rm my-node-app || true
