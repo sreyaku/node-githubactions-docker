@@ -58,7 +58,7 @@ jobs:
             docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
             docker stop my-node-app || true
             docker rm my-node-app || true
-    # docker run -d --name my-node-app -p 80:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/myapp:latest
+            docker run -d --name my-node-app -p 80:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/my-node-app:latest
            
       # - name: Fill in the new image ID in the Amazon ECS task definition
       #   id: task-def
