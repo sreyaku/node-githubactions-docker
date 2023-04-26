@@ -55,6 +55,7 @@ jobs:
           script: |
             sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
             docker pull <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/aks-repo:latest
+            docker run --help
             docker stop my-node-app || true
             docker rm my-node-app || true
             docker run -d --name my-node-app -p 80:3000 <AWS account ID>.dkr.ecr.<AWS region>.amazonaws.com/aks-repo:latest
