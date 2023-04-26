@@ -45,12 +45,7 @@ jobs:
           docker rmi -f $(docker images -aq)
           docker build -t my-node-app .
           docker run -p 80:3000 -d my-node-app
-          docker push my-node-app
-
           
-
-          
-
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
         with:
