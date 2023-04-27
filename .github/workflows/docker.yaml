@@ -53,10 +53,12 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
+            cd /home/ec2-user/node-githubactions-docker/NodeSampleApplication-master  
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-east-1.amazonaws.com
             docker build -t aks-repo .
             docker tag aks-repo:latest 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
             docker push 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
+
            
 
            
