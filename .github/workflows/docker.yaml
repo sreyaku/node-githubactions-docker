@@ -60,7 +60,7 @@ jobs:
             echo AWS_ACCESS_KEY_ID
             echo AWS_SECRET_ACCESS_KEY
             cd node-githubactions-docker
-            sudo cd NodeSampleApplication-master
+            cd NodeSampleApplication-master
             docker build -t aks-repo .
             docker tag aks-repo:latest 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
             docker push 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
