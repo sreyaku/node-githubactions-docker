@@ -54,10 +54,10 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-east-1.amazonaws.com
-            docker pull 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
-            docker stop my-node-app || true
-            docker rm my-node-app || true
-            docker run -d --name my-node-app -p 80:3000 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
+            docker build -t aks-repo .
+            docker tag aks-repo:latest 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
+            docker push 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
+           
 
            
       # - name: Fill in the new image ID in the Amazon ECS task definition
