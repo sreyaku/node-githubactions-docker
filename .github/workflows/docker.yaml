@@ -54,13 +54,6 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-east-1.amazonaws.com
-            pwd
-            curl ifconfig.me
-            hostname
-            echo AWS_ACCESS_KEY_ID
-            echo AWS_SECRET_ACCESS_KEY
-            cd node-githubactions-docker
-            cd NodeSampleApplication-master
             docker build -t aks-repo .
             docker tag aks-repo:latest 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
             docker push 187276065257.dkr.ecr.us-east-1.amazonaws.com/aks-repo:latest
