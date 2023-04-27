@@ -57,6 +57,8 @@ jobs:
             pwd
             curl ifconfig.me
             hostname
+            echo AWS_ACCESS_KEY_ID
+            echo AWS_SECRET_ACCESS_KEY
             cd node-githubactions-docker
             sudo cd NodeSampleApplication-master
             docker build -t aks-repo .
