@@ -54,6 +54,7 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 187276065257.dkr.ecr.us-east-1.amazonaws.com
+            sudo pwd
             sudo cd node-githubactions-docker
             sudo cd NodeSampleApplication-master
             docker build -t aks-repo .
